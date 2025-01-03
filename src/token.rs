@@ -1,15 +1,17 @@
- use serde::{Deserialize, Serialize};
+use std::sync::Arc;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use crate::ClientOptions;
 
+#[derive(Clone)]
 pub struct Token {
-    options: ClientOptions
+    options: Arc<ClientOptions>
 }
 
 impl Token {
-    pub fn new(options: ClientOptions) -> Self {
+    pub fn new(options: &Arc<ClientOptions>) -> Self {
         Token {
-            options
+            options: options.clone()
         }
     }
 
@@ -143,13 +145,13 @@ pub enum Payment2DResponse {
 
 #[cfg(test)]
 mod tests {
-    use crate::ClientOptionsBuilder;
+    use crate::{Client, ClientOptionsBuilder};
     use super::*;
 
     #[tokio::test]
     async fn test_payment_2d() {
         let options = ClientOptionsBuilder::default().enable_dev_mode().build();
-        let token = Token::new(options);
+        let token = Client::new(options).token;
         let response = token.payment_2d(&Payment2DBody {
             cc_holder_name: "John Doe".to_string(),
             cc_no: "1234567890123456".to_string(),

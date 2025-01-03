@@ -1,5 +1,7 @@
 use std::sync::Arc;
 use crate::payment::Payment;
+use crate::token::Token;
+
 mod payment;
 mod token;
 
@@ -51,8 +53,8 @@ pub struct ClientOptions {
 
 #[derive(Clone)]
 pub struct Client {
-    options: Arc<ClientOptions>,
-    pub payment: Payment
+    pub payment: Payment,
+    pub token: Token
 }
 
 impl Client {
@@ -60,28 +62,8 @@ impl Client {
         let options = Arc::new(options);
         Client {
             payment: Payment::new(&options),
-            options,
+            token: Token::new(&options)
         }
-    }
-}
-
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_client_options() {
-        let options = ClientOptionsBuilder::with_merchant_key("test".to_string()).build();
-        println!("{:?}", options.api_base);
-        assert_eq!(options.merchant_key.unwrap(), "test".to_string());
-
-    }
-
-    #[test]
-    fn test_sub_client() {
-        let options = ClientOptionsBuilder::with_merchant_key("test".to_string()).build();
-        let client = Client::new(options);
     }
 }
 

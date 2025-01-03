@@ -12,6 +12,4 @@ impl Payment {
             options: options.clone()
         }
     }
-    
-    
 }
