@@ -50,7 +50,7 @@ pub struct ClientOptions {
 }
 
 #[derive(Clone)]
-struct Client {
+pub struct Client {
     options: Arc<ClientOptions>,
     pub payment: Payment
 }

@@ -1,5 +1,4 @@
-use std::future::Future;
-use serde::{Deserialize, Serialize};
+ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use crate::ClientOptions;
 
@@ -65,7 +64,7 @@ pub struct Payment2DBody {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct Payment2DSuccessData {
+pub struct Payment2DSuccessData {
     pub order_no: String,
     pub order_id: String,
     pub invoice_id: String,
@@ -88,14 +87,14 @@ struct Payment2DSuccessData {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct Payment2DSuccessResponse {
+pub struct Payment2DSuccessResponse {
     pub status_code: i64,
     pub status_description: String,
     pub data: Payment2DSuccessData,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Payment2DInvalidHashData {
+pub struct Payment2DInvalidHashData {
     pub invoice_id: String,
     pub order_no: String,
     pub order_id: String,
@@ -110,32 +109,32 @@ struct Payment2DInvalidHashData {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Payment2DInvalidSubData {
+pub struct Payment2DInvalidSubData {
     pub status_code: i64,
     pub status_description: String,
     pub data: Payment2DInvalidHashData,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Payment2DInvalidHashResponse {
+pub struct Payment2DInvalidHashResponse {
     pub data: Payment2DInvalidSubData,
     pub message: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Payment2DErrorsBody {
+pub struct Payment2DErrorsBody {
     pub merchant_key: Vec<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-struct Payment2DErrorResponse {
+pub struct Payment2DErrorResponse {
     pub message: String,
     pub errors: Payment2DErrorsBody,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(untagged)]
-enum Payment2DResponse {
+pub enum Payment2DResponse {
     Success(Payment2DSuccessResponse),
     InvalidHash(Payment2DInvalidHashResponse),
     Error(Payment2DErrorResponse),
